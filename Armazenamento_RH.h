@@ -3,15 +3,131 @@
 
 typedef struct Nos
 {
-    int info;
-    Nos *dir;
-    Nos *esq;
+    int matricula;
+    char nome[40];
+    int idade;
+    char cargo[25];
+    float salario;
+    struct Nos *dir;
+    struct Nos *esq;
+
 }NoAvr;
 
-typedef struct Avr
+typedef struct funcionarios
 {
-    NoAvr* raiz;
+    int matricula;
+    char nome[40];
+    int idade;
+    char cargo[25];
+    float salario;
+}Funcionarios;
+
+typedef struct avr
+{
+    NoAvr *raiz;
 }Avr;
+
+
+void imprimeArvIN(NoAvr *A){
+
+    if (A == NULL){
+        printf("\t\nArvore esta vazia!!");
+        return;
+    }else{
+        printf("%d\t\t%-10s\t%d\t%-15s\t%.2f\n", A->matricula, A->nome, A->idade, A->cargo, A->salario);
+        if(A->dir != NULL){
+            imprimeArvIN(A->dir);
+        }
+        if(A->esq != NULL){
+            imprimeArvIN(A->esq);
+        }
+    }
+}
+
+void imprimeArvPOS(NoAvr *A){
+
+    printf("Matricula\tNome\t\tIdade\tCargo\t\t\tSalário\n");
+    printf("---------------------------------------------------------------\n");
+
+    if (A == NULL){
+        printf("\t\nArvore esta vazia!!");
+        return;
+    }else{
+        if(A->dir != NULL){
+            imprimeArvPOS(A->dir);
+        }
+        if(A->esq != NULL){
+            imprimeArvPOS(A->esq);
+        }
+        printf("%d\t\t%-10s\t%d\t%-15s\t%.2f\n", A->matricula, A->nome, A->idade, A->cargo, A->salario);
+    }
+}
+
+void BuscaNaArvore(NoAvr *A, int alt, int matricula, char *novo_nome, int nova_idade, char *novo_cargo, float novo_salario)
+{
+    int flag;
+    NoAvr *Pai;
+    if(A == NULL)
+    {
+        printf("\nÁrvore vazia, sem elementos para a busca.");
+        return;
+    }
+    else
+    {
+        Pai = A;
+        flag = 0;
+        while(flag == 0)
+        {
+            if(Pai->matricula <= matricula)
+            {
+                if(Pai->dir==NULL)
+                {
+                    if(alt == 0){
+                        strcpy(Pai->nome, novo_nome);
+                        flag = 1;
+                    }else if(alt == 1){
+                        Pai->idade = nova_idade;
+                        flag = 1;
+                    }else if(alt == 2){
+                        strcpy(Pai->cargo, novo_cargo);
+                        flag = 1;
+                    }else{
+                        Pai->salario = novo_salario;
+                        flag = 1;
+                    }
+                }
+                else
+
+                {
+                    Pai->dir=Pai;
+                }
+            }
+            else
+            {
+                if(Pai->esq==NULL)
+                {
+                    if(alt == 0){
+                       strcpy(Pai->nome, novo_nome);
+                        flag = 1;
+                    }else if(alt == 1){
+                        Pai->idade = nova_idade;
+                        flag = 1;
+                    }else if(alt == 2){
+                        strcpy(Pai->cargo, novo_cargo);
+                        flag = 1;
+                    }else{
+                        Pai->salario = novo_salario;
+                        flag = 1;
+                    }
+                }
+                else
+                {
+                    Pai->esq=Pai;
+                }
+            }
+        }
+    }
+}
 
 Avr* CriaArvore()
 {
@@ -21,7 +137,7 @@ Avr* CriaArvore()
     return aux;
 }
 
-int VaziaArvore(Arv* A)
+int VaziaArvore(Avr* A)
 {
     if(A-> raiz == NULL)
     {
@@ -30,123 +146,59 @@ int VaziaArvore(Arv* A)
     return 0;
 }
 
-NoAvr* aux_InsereArv(NoAvr *A, int num)
-{
+NoAvr * aux_insere(NoAvr *no, int matricula, char *nome, int idade, char *cargo, float salario){
+
+    int flag;
     NoAvr *Pai;
-    NoAvr *novo = (NoAvr)malloc(sizeof(NoAvr));
-    novo->info=num;
-    novo->esq=NULL;
-    novo->dir=NULL;
+    NoAvr *novo = (NoAvr*)malloc (sizeof(NoAvr));
+    novo->matricula = matricula;
+    strcpy(novo->nome, nome);
+    novo->idade = idade;
+    strcpy(novo->cargo, cargo);
+    novo->salario = salario;
 
-    if(A == NULL)
-    {
+    novo->esq = NULL;
+    novo->dir = NULL;
+    if(no == NULL){
         return novo;
-    }
-    else
-    {
-        Pai = A;
+    } else {
+        Pai = no;
         flag = 0;
-        while(flag == 0)
-        {
-            if(Pai->info<num)
+        while(flag==0){
+            if(Pai->matricula<matricula)
             {
-                if(Pai->dir==NULL)
+                if(Pai->dir == NULL)
                 {
-                    Pai->info = novo;
+                    Pai->dir = novo;
                     flag = 1;
-                }
-                else
+                } else
                 {
-                    Pai->dir=Pai;
+                    Pai = Pai->dir;
                 }
-            }
-            else(Pai->info>num)
+            } else
             {
-                if(Pai->esq==NULL)
+                if(Pai->matricula > matricula)
                 {
-                    Pai->info = novo;
-                    flag = 1;
-                }
-                else
-                {
-                    Pai->esq=Pai;
-                }
-            }
-        }
-    }
-    return A;
-}
-
-void InsereAvr(Avr *Ar, int num)
-{
-    Ar->raiz=aux_InsereArv(Ar->raiz,num);
-}
-
-void RemoveAvr(Avr *Ar int num)
-{
-    NoAvr *aux = Ar-> raiz;
-    if(aux->info==num && aux->dir ==NULL && auz->esq == NULL)
-    {
-        free(aux);
-        free(RAIZ);
-        return NULL;
-    }
-    Ar->raiz = RemoveAvr_aux(Ar->raiz, num);
-    return Ar;
-}
-NoAvr* RemoverAvr_aux(NoAvr *A, int num)
-{
-    if(pai==NULL)
-    {
-        printf("\n\tNada Encontrado!");
-    }
-    else{
-        if(num>pai->info)
-        {
-            pai->dir = RemoverAvr_aux(pai->dir, num);
-        }else{
-            if(num<pai->info)
-            {
-                pai->esq = RemoveAvr_aux(pai->esq, num);
-            }
-    }
-    else{
-        if(pai->dir == NULL && pai->esq == NULL)
-        {
-            free(pai);
-            pai = NULL;
-        }
-        else{
-            if(pai->esq == NULL)
-            {
-                NoAvr *aux = pai;
-                pai=pai->dir;
-                free(aux);
-            }
-            else{
-                if(pai->dir = NULL)
-                {
-                    NoArv* aux = pai;
-                    pai = pai->esq;
-                    free(aux);
-                }
-                else {
-                    NoAvr *aux;
-                    aux = pai->esq;
-                    while(aux->dir!=NULL){
-                        aux = aux->dir;
+                    if(Pai->esq == NULL)
+                    {
+                        Pai->esq = novo;
+                        flag = 1;
+                    }else
+                    {
+                        Pai = Pai->esq;
                     }
-                    pai->info = aux->info;
-                    aux->info = num;
-                    pai->esq = RemoverAvr_aux(pai->esq, num);
                 }
             }
         }
-      }
     }
-    return pai;
+    return no;
 }
 
+void insere_Arvore(Avr *arvore, int matricula, char *nome, int idade, char *cargo, float salario){
+
+    arvore->raiz = aux_insere(arvore->raiz, matricula, nome, idade, cargo, salario);
+
+}
 
 
 
