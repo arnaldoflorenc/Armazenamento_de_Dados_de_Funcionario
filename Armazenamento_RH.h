@@ -63,70 +63,65 @@ void imprimeArvPOS(NoAvr *A){
     }
 }
 
+void aumentaC(char cargo[26]){
+    int tam = 24;
+    size_t comp = strlen(cargo);
+
+    if(comp > 0 && cargo[comp - 1] == '\n'){
+        cargo[comp - 1] = '\0';
+    }
+    for(int i = comp; i < tam; i++){
+        cargo[i] = ' ';
+    }
+}
+
+void aumentaN(char nome[41]){
+    int tam = 39;
+    size_t comp = strlen(nome);
+    if(comp > 0 && nome[comp -1] == '\n'){
+        nome[comp - 1] = '\0';
+    }
+    for(int i = comp; i < tam; i++){
+        nome[i] = ' ';
+    }
+}
+
 void BuscaNaArvore(NoAvr *A, int alt, int matricula, char *novo_nome, int nova_idade, char *novo_cargo, float novo_salario)
 {
     int flag;
     NoAvr *Pai;
-    if(A == NULL)
-    {
-        printf("\nÁrvore vazia, sem elementos para a busca.");
+    if(A == NULL){
+        printf("\n\t->Sua arvore esta vazia");
         return;
-    }
-    else
-    {
+    } else {
         Pai = A;
         flag = 0;
-        while(flag == 0)
-        {
-            if(Pai->matricula <= matricula)
-            {
-                if(Pai->dir==NULL)
-                {
-                    if(alt == 0){
-                        strcpy(Pai->nome, novo_nome);
-                        flag = 1;
-                    }else if(alt == 1){
-                        Pai->idade = nova_idade;
-                        flag = 1;
-                    }else if(alt == 2){
-                        strcpy(Pai->cargo, novo_cargo);
-                        flag = 1;
-                    }else{
-                        Pai->salario = novo_salario;
-                        flag = 1;
-                    }
+        while(Pai != NULL){
+            if(Pai->matricula == matricula){
+                switch (alt){
+                    case 0:
+                        strcpy(A->nome, novo_nome);
+                        break;
+                    case 1:
+                        A->idade = nova_idade;
+                        break;
+                    case 2:
+                        strcpy(A->cargo, novo_cargo);
+                        break;
+                    case 3:
+                        A->salario = novo_salario;
+                        break;
+                    default:
+                        break;
                 }
-                else
-
-                {
-                    Pai->dir=Pai;
-                }
-            }
-            else
-            {
-                if(Pai->esq==NULL)
-                {
-                    if(alt == 0){
-                       strcpy(Pai->nome, novo_nome);
-                        flag = 1;
-                    }else if(alt == 1){
-                        Pai->idade = nova_idade;
-                        flag = 1;
-                    }else if(alt == 2){
-                        strcpy(Pai->cargo, novo_cargo);
-                        flag = 1;
-                    }else{
-                        Pai->salario = novo_salario;
-                        flag = 1;
-                    }
-                }
-                else
-                {
-                    Pai->esq=Pai;
-                }
+            } else if(Pai->matricula < matricula){
+                Pai = Pai->dir;
+            } else {
+                Pai = Pai->esq;
             }
         }
     }
+
 }
 
 Avr* CriaArvore()
@@ -176,7 +171,7 @@ NoAvr * aux_insere(NoAvr *no, int matricula, char *nome, int idade, char *cargo,
                     Pai = Pai->dir;
                 }
             } else
-            {
+             {
                 if(Pai->matricula > matricula)
                 {
                     if(Pai->esq == NULL)
@@ -188,7 +183,7 @@ NoAvr * aux_insere(NoAvr *no, int matricula, char *nome, int idade, char *cargo,
                         Pai = Pai->esq;
                     }
                 }
-            }
+             }
         }
     }
     return no;

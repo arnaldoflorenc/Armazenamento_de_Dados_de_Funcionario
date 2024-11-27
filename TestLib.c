@@ -15,7 +15,7 @@ void insereFuncionarios(Avr *Pai){
     FILE *dados;
     Funcionarios *func;
 
-     dados = fopen("Dados.txt", "r");
+    dados = fopen("Dados.txt", "r");
     if(dados == NULL){
         printf("\nARQUIVO NÃO INICIALIZADO!!!");
         system("pause");
@@ -66,6 +66,9 @@ void buscaFuncionario(Avr *Pai){
                 printf("\n\t->Digite o novo Nome: ");
                 fflush(stdin);
                 fgets(novo_nome, 40, stdin);
+                novo_nome[strcspn(novo_nome, "\n")] = '\0';
+                aumentaN(novo_nome);
+
                 alt = 0;
                 break;
             case 2:
@@ -77,6 +80,9 @@ void buscaFuncionario(Avr *Pai){
                 printf("\n\t->Digite o novo Cargo: ");
                 fflush(stdin);
                 fgets(novo_cargo, 25, stdin);
+                novo_cargo[strcspn(novo_cargo, "\n")] = '\0';
+                aumentaC(novo_cargo);
+
                 alt = 2;
                 break;
             case 4:
@@ -90,11 +96,11 @@ void buscaFuncionario(Avr *Pai){
                 printf("\n\tOPÇÃO NÃO ENCONTRADA, RETORNANDO AO MENU...");
                 return;
         }
-        BuscaNaArvore(Pai->raiz, flag, matricula, novo_nome, nova_idade, novo_cargo, novo_salario);
+        BuscaNaArvore(Pai->raiz, alt, matricula, novo_nome, nova_idade, novo_cargo, novo_salario);
     }while(op != 5);
 }
 
-int main (){
+int main(){
     int op;
 
     setlocale(LC_ALL,"portuguese");
@@ -125,6 +131,7 @@ int main (){
                 insereFuncionarios(Pai);
                 break;
             case 2:
+                imprimeArvIN(Pai->raiz);
                 buscaFuncionario(Pai);
                 break;
             case 3:
