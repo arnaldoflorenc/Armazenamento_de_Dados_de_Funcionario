@@ -87,7 +87,7 @@ void buscaFuncionario(Avr *Pai){
                 break;
             case 4:
                 printf("\n\t->Digite o nova Salário: ");
-                scanf("%d", &novo_salario);
+                scanf("%f", &novo_salario);
                 alt = 3;
                 break;
             case 5:
@@ -98,6 +98,7 @@ void buscaFuncionario(Avr *Pai){
         }
         BuscaNaArvore(Pai->raiz, alt, matricula, novo_nome, nova_idade, novo_cargo, novo_salario);
     }while(op != 5);
+    imprimeArvIN(Pai->raiz);
 }
 
 int main(){
