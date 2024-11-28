@@ -101,6 +101,42 @@ void buscaFuncionario(Avr *Pai){
     imprimeArvIN(Pai->raiz);
 }
 
+void incluirNovoFuncionario(Avr *Pai){
+    int nova_matricula, nova_idade;
+    char novo_nome[40];
+    char novo_cargo[25];
+    float novo_salario;
+
+    printf("\n\t--------Insira os Dados do Novo Funcionario--------");
+    printf("\n\t\t->Matricula: ");
+    scanf("%d", &nova_matricula);
+
+    printf("\n\t\t->Nome: ");
+    fflush(stdin);
+    fgets(novo_nome, 40, stdin);
+    novo_nome[strcspn(novo_nome, "\n")] = '\0';
+    aumentaN(novo_nome);
+
+    printf("\n\t\t->Idade: ");
+    scanf("%d", &nova_idade);
+
+    printf("\n\t\t->Cargo: ");
+    fflush(stdin);
+    fgets(novo_cargo, 25, stdin);
+    novo_nome[strcspn(novo_cargo, "\n")] = '\0';
+    aumentaC(novo_cargo);
+
+    printf("\n\t\t->Salario: ");
+    scanf("%f", &novo_salario);
+
+    insere_Arvore(Pai, nova_matricula, novo_nome, nova_idade, novo_cargo, novo_salario);
+
+    imprimeArvIN(Pai->raiz);
+
+
+
+}
+
 int main(){
     int op;
 
@@ -132,10 +168,10 @@ int main(){
                 insereFuncionarios(Pai);
                 break;
             case 2:
-                imprimeArvIN(Pai->raiz);
                 buscaFuncionario(Pai);
                 break;
             case 3:
+                incluirNovoFuncionario(Pai);
                 break;
             case 4:
                 break;

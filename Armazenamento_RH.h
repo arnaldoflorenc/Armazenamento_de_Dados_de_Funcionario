@@ -63,12 +63,12 @@ void imprimeArvPOS(NoAvr *A){
     }
 }
 
-void aumentaC(char cargo[26]){
-    int tam = 24;
+void aumentaC(char cargo[25]){
+    int tam = 23;
     size_t comp = strlen(cargo);
 
     if(comp > 0 && cargo[comp - 1] == '\n'){
-        cargo[comp - 1] = '\0';
+        cargo[comp-1] = '\0';
     }
     for(int i = comp; i < tam; i++){
         cargo[i] = ' ';
@@ -76,10 +76,10 @@ void aumentaC(char cargo[26]){
 }
 
 void aumentaN(char nome[40]){
-    int tam = 38;
+    int tam = 36;
     size_t comp = strlen(nome);
     if(comp > 0 && nome[comp -1] == '\n'){
-        nome[comp - 1] = '\0';
+        nome[comp-1] = '\0';
     }
     for(int i = comp; i < tam; i++){
         nome[i] = ' ';
