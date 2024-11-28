@@ -127,6 +127,101 @@ void BuscaNaArvore(NoAvr *A, int alt, int matricula, char *novo_nome, int nova_i
 
 }
 
+void BuscaInfo(NoAvr *A, int matricula)
+{
+    int flag;
+    NoAvr *Pai;
+    if(A == NULL){
+        printf("\n\t->Sua arvore esta vazia");
+        return;
+    } else {
+        Pai = A;
+        flag = 0;
+        while(flag==0){
+            if(Pai->matricula < matricula){
+                Pai = Pai->dir;
+            } else if (Pai->matricula > matricula){
+                Pai = Pai->esq;
+            } else{
+                printf("\n\t\t->funcionario encontrado\n\n");
+                printf("Matricula\tNome\t\tIdade\tCargo\t\t\tSalário\n\n");
+                printf("%d\t\t%-10s\t%d\t%-15s\t%.2f\n", Pai->matricula, Pai->nome, Pai->idade, Pai->cargo, Pai->salario);
+
+                flag = 1;
+            }
+        }
+
+    }
+
+}
+
+NoAvr* MaisVelho(NoAvr *A) {
+    if (A == NULL) {
+        printf("\n\t-> A árvore está vazia!\n");
+        return NULL;
+    }
+
+    NoAvr *maisVelho = A;
+    if (A->esq != NULL) {
+        NoAvr *esquerdo = MaisVelho(A->esq);
+        if (esquerdo != NULL && esquerdo->idade > maisVelho->idade) {
+            maisVelho = esquerdo;
+        }
+    }
+    if (A->dir != NULL) {
+        NoAvr *direito = MaisVelho(A->dir);
+        if (direito != NULL && direito->idade > maisVelho->idade) {
+            maisVelho = direito;
+        }
+    }
+
+    return maisVelho;
+}
+
+NoAvr* MaisNovo(NoAvr *A) {
+    if (A == NULL) {
+        printf("\n\t-> A árvore está vazia!\n");
+        return NULL;
+    }
+
+    NoAvr *maisNovo = A;
+    if (A->esq != NULL) {
+        NoAvr *esquerdo = MaisNovo(A->esq);
+        if (esquerdo != NULL && esquerdo->idade < maisNovo->idade) {
+            maisNovo = esquerdo;
+        }
+    }
+    if (A->dir != NULL) {
+        NoAvr *direito = MaisNovo(A->dir);
+        if (direito != NULL && direito->idade < maisNovo->idade) {
+            maisNovo = direito;
+        }
+    }
+
+    return maisNovo;
+}
+
+void BuscaCargo(NoAvr *A, char *cargo) {
+
+    if (A == NULL) {
+        return;
+    }
+    NoAvr *Pai = A;
+
+
+    if (strcmp(Pai->cargo, cargo) == 0) {
+         printf("%d\t\t%-10s\t%d\t%-15s\t%.2f\n", Pai->matricula, Pai->nome, Pai->idade, Pai->cargo, Pai->salario);
+    }
+    if (Pai->esq != NULL) {
+        BuscaCargo(Pai->esq, cargo);
+    }
+    if (A->dir != NULL) {
+        BuscaCargo(Pai->dir, cargo);
+    }
+
+}
+
+
 Avr* CriaArvore()
 {
     Avr *aux;

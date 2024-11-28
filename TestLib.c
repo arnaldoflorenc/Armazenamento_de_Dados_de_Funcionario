@@ -107,20 +107,20 @@ void incluirNovoFuncionario(Avr *Pai){
     char novo_cargo[25];
     float novo_salario;
 
-    printf("\n\t--------Insira os Dados do Novo Funcionario--------");
-    printf("\n\t\t->Matricula: ");
+    printf("\n--------Insira os Dados do Novo Funcionario--------");
+    printf("\n\t->Matricula: ");
     scanf("%d", &nova_matricula);
 
-    printf("\n\t\t->Nome: ");
+    printf("\n\t->Nome: ");
     fflush(stdin);
     fgets(novo_nome, 40, stdin);
     novo_nome[strcspn(novo_nome, "\n")] = '\0';
     aumentaN(novo_nome);
 
-    printf("\n\t\t->Idade: ");
+    printf("\n\t->Idade: ");
     scanf("%d", &nova_idade);
 
-    printf("\n\t\t->Cargo: ");
+    printf("\n\t->Cargo: ");
     fflush(stdin);
     fgets(novo_cargo, 25, stdin);
     novo_nome[strcspn(novo_cargo, "\n")] = '\0';
@@ -138,7 +138,9 @@ void incluirNovoFuncionario(Avr *Pai){
 }
 
 int main(){
-    int op;
+    int op, matricula;
+    NoAvr *velho;
+    NoAvr *novo;
 
     setlocale(LC_ALL,"portuguese");
 
@@ -176,10 +178,31 @@ int main(){
             case 4:
                 break;
             case 5:
+                printf("\n\n----------------------------------------------------\n");
+                printf("\n\t<<<<Encontrar Funcionario>>>>");
+                printf("\n\t\t->Digite a Matricula do Funcionario: ");
+                scanf("%d", &matricula);
+
+                BuscaInfo(Pai->raiz, matricula);
                 break;
             case 6:
+                velho = MaisVelho(Pai->raiz);
+                printf("\n\t\t>>>Funcionario Mais Velho<<<<\n\n");
+
+                printf("Matricula\tNome\t\tIdade\tCargo\t\t\tSalário\n\n");
+
+                printf("%d\t\t%-10s\t%d\t%-15s\t%.2f\n", velho->matricula, velho->nome, velho->idade, velho->cargo, velho->salario);
+
+                novo = MaisNovo(Pai->raiz);
+                printf("\n\t\t>>>Funcionario mais Novo<<<<\n\n");
+
+                printf("Matricula\tNome\t\tIdade\tCargo\t\t\tSalário\n\n");
+
+                printf("%d\t\t%-10s\t%d\t%-15s\t%.2f\n", novo->matricula, novo->nome, novo->idade, novo->cargo, novo->salario);
+
                 break;
             case 7:
+                BuscaCargo(Pai->raiz, "CONTADOR");
                 break;
             case 8:
                 break;
