@@ -46,7 +46,7 @@ void imprimeArvIN(NoAvr *A){
 
 void imprimeArvPOS(NoAvr *A){
 
-    printf("Matricula\tNome\t\tIdade\tCargo\t\t\tSalário\n");
+    printf("Matricula\tNome\t\tIdade\tCargo\t\t\tSalÃ¡rio\n");
     printf("---------------------------------------------------------------\n");
 
     if (A == NULL){
@@ -116,7 +116,7 @@ void BuscaNaArvore(NoAvr *A, int alt, int matricula, char *novo_nome, int nova_i
                     Pai->salario = novo_salario;
                     break;
                 default:
-                    printf("\n\t->Não existe essa informação");
+                    printf("\n\t->NÃ£o existe essa informaÃ§Ã£o");
                     break;
                 }
                 flag = 1;
@@ -144,7 +144,7 @@ void BuscaInfo(NoAvr *A, int matricula)
                 Pai = Pai->esq;
             } else{
                 printf("\n\t\t->funcionario encontrado\n\n");
-                printf("Matricula\tNome\t\tIdade\tCargo\t\t\tSalário\n\n");
+                printf("Matricula\tNome\t\tIdade\tCargo\t\t\tSalÃ¡rio\n\n");
                 printf("%d\t\t%-10s\t%d\t%-15s\t%.2f\n", Pai->matricula, Pai->nome, Pai->idade, Pai->cargo, Pai->salario);
 
                 flag = 1;
@@ -157,7 +157,7 @@ void BuscaInfo(NoAvr *A, int matricula)
 
 NoAvr* MaisVelho(NoAvr *A) {
     if (A == NULL) {
-        printf("\n\t-> A árvore está vazia!\n");
+        printf("\n\t-> A Ã¡rvore estÃ¡ vazia!\n");
         return NULL;
     }
 
@@ -180,7 +180,7 @@ NoAvr* MaisVelho(NoAvr *A) {
 
 NoAvr* MaisNovo(NoAvr *A) {
     if (A == NULL) {
-        printf("\n\t-> A árvore está vazia!\n");
+        printf("\n\t-> A Ã¡rvore estÃ¡ vazia!\n");
         return NULL;
     }
 
@@ -291,6 +291,68 @@ void insere_Arvore(Avr *arvore, int matricula, char *nome, int idade, char *carg
 
     arvore->raiz = aux_insere(arvore->raiz, matricula, nome, idade, cargo, salario);
 
+}
+
+NoAvr* Remover_aux(NoAvr *Pai, int num){
+   if(Pai == NULL){
+    printf("\n\t\tNï¿½o foi encontrado nada.");
+   } else {
+       if (num > Pai->matricula){
+        Pai->dir = Remover_aux(Pai->dir, num);
+       }
+       else{
+        if(num < Pai->matricula){
+            Pai->esq = Remover_aux(Pai->esq, num);
+        } else{
+            if(Pai->dir == NULL && Pai->esq == NULL){
+                free(Pai);
+                Pai = NULL;
+            }
+            else{
+                if(Pai->esq == NULL){
+                    NoAvr *aux = Pai;
+                    Pai = Pai->dir;
+                    free(aux);
+                } else {
+                    if(Pai ->esq == NULL){
+                        NoAvr *aux = Pai;
+                        Pai = Pai->dir;
+                        free(aux);
+                    }
+                    else{
+                        NoAvr *aux;
+                        aux = Pai -> esq;
+                        while(aux->dir != NULL){
+                            aux = aux->dir;
+                        }
+                        Pai->matricula = aux->matricula;
+                        strcpy(Pai->nome, aux->nome);
+                        Pai->idade = aux->idade;
+                        strcpy(Pai->cargo, aux->cargo);
+                        Pai->salario = aux->salario;
+                        aux->matricula = num;
+                        Pai->esq = Remover_aux(Pai->esq, num);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return Pai;
+}
+
+Avr* Remover(Avr *Pai, int num ){
+    NoAvr *aux = Pai->raiz;
+    if(aux->matricula==num && aux->dir==NULL && aux->esq==NULL)
+    {
+        free(aux);
+        free(Pai);
+        return NULL;
+    }
+
+
+    Pai->raiz = Remover_aux(Pai->raiz,num);
+    return Pai;
 }
 
 

@@ -17,7 +17,7 @@ void insereFuncionarios(Avr *Pai){
 
     dados = fopen("Dados.txt", "r");
     if(dados == NULL){
-        printf("\nARQUIVO NÃO INICIALIZADO!!!");
+        printf("\nARQUIVO NÃƒO INICIALIZADO!!!");
         system("pause");
         exit(0);
     }
@@ -35,7 +35,7 @@ void insereFuncionarios(Avr *Pai){
         insere_Arvore(Pai, func[i].matricula, func[i].nome, func[i].idade, func[i].cargo, func[i].salario);
     }
 
-    printf("\n\nMatricula\tNome\t\t\t\t\tIdade\tCargo\t\t\t\tSalário\n");
+    printf("\n\nMatricula\tNome\t\t\t\t\tIdade\tCargo\t\t\t\tSalÃ¡rio\n");
     printf("-------------------------------------------------------------------------------------------------------\n");
     imprimeArvIN(Pai->raiz);
     fclose(dados);
@@ -55,10 +55,10 @@ void buscaFuncionario(Avr *Pai){
         printf("\n\t[1]. Nome ");
         printf("\n\t[2]. Idade ");
         printf("\n\t[3]. Cargo");
-        printf("\n\t[4]. Salário");
+        printf("\n\t[4]. SalÃ¡rio");
         printf("\n\t[5]. Sair");
 
-        printf("\n\t->>Qual informação deseja alterar: ");
+        printf("\n\t->>Qual informaÃ§Ã£o deseja alterar: ");
         scanf("%d", &op);
 
         switch(op){
@@ -86,14 +86,14 @@ void buscaFuncionario(Avr *Pai){
                 alt = 2;
                 break;
             case 4:
-                printf("\n\t->Digite o nova Salário: ");
+                printf("\n\t->Digite o nova SalÃ¡rio: ");
                 scanf("%f", &novo_salario);
                 alt = 3;
                 break;
             case 5:
                 break;
             default:
-                printf("\n\tOPÇÃO NÃO ENCONTRADA, RETORNANDO AO MENU...");
+                printf("\n\tOPÃ‡ÃƒO NÃƒO ENCONTRADA, RETORNANDO AO MENU...");
                 return;
         }
         BuscaNaArvore(Pai->raiz, alt, matricula, novo_nome, nova_idade, novo_cargo, novo_salario);
@@ -126,7 +126,7 @@ void incluirNovoFuncionario(Avr *Pai){
     novo_nome[strcspn(novo_cargo, "\n")] = '\0';
     aumentaC(novo_cargo);
 
-    printf("\n\t\t->Salario: ");
+    printf("\n\t->Salario: ");
     scanf("%f", &novo_salario);
 
     insere_Arvore(Pai, nova_matricula, novo_nome, nova_idade, novo_cargo, novo_salario);
@@ -138,7 +138,7 @@ void incluirNovoFuncionario(Avr *Pai){
 }
 
 int main(){
-    int op, matricula;
+    int op, matricula, num = 0;
     NoAvr *velho;
     NoAvr *novo;
 
@@ -161,7 +161,7 @@ int main(){
 
         do{
             fflush(stdin);
-            printf("\n\t\t ->Opção desejada:");
+            printf("\n\t\t ->OpÃ§Ã£o desejada:");
             scanf("%d",&op);
         }while(op < 0  || op > 8);
 
@@ -176,6 +176,14 @@ int main(){
                 incluirNovoFuncionario(Pai);
                 break;
             case 4:
+                printf("\n\t\tDigite a Matricula do funcionï¿½rio que deseja excluir: ");
+                scanf("%d",&num);
+                Remover(Pai,num);
+                printf("\n\t\tFuncionï¿½rio Removido");
+                printf("\n\t\tTabela Atualizada:\n");
+                printf("\n\nMatricula\tNome\t\t\t\t\tIdade\tCargo\t\t\t\tSalï¿½rio\n");
+                printf("-------------------------------------------------------------------------------------------------------\n");
+                imprimeArvIN(Pai->raiz);
                 break;
             case 5:
                 printf("\n\n----------------------------------------------------\n");
@@ -189,14 +197,14 @@ int main(){
                 velho = MaisVelho(Pai->raiz);
                 printf("\n\t\t>>>Funcionario Mais Velho<<<<\n\n");
 
-                printf("Matricula\tNome\t\tIdade\tCargo\t\t\tSalário\n\n");
+                printf("Matricula\tNome\t\tIdade\tCargo\t\t\tSalÃ¡rio\n\n");
 
                 printf("%d\t\t%-10s\t%d\t%-15s\t%.2f\n", velho->matricula, velho->nome, velho->idade, velho->cargo, velho->salario);
 
                 novo = MaisNovo(Pai->raiz);
                 printf("\n\t\t>>>Funcionario mais Novo<<<<\n\n");
 
-                printf("Matricula\tNome\t\tIdade\tCargo\t\t\tSalário\n\n");
+                printf("Matricula\tNome\t\tIdade\tCargo\t\t\tSalÃ¡rio\n\n");
 
                 printf("%d\t\t%-10s\t%d\t%-15s\t%.2f\n", novo->matricula, novo->nome, novo->idade, novo->cargo, novo->salario);
 
