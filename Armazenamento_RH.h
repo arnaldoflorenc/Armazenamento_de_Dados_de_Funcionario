@@ -197,8 +197,65 @@ void insere_Arvore(Avr *arvore, int matricula, char *nome, int idade, char *carg
     arvore->raiz = aux_insere(arvore->raiz, matricula, nome, idade, cargo, salario);
 
 }
+NoAvr* Remover_aux(NoAvr *Pai, int num){
+   if(Pai == NULL){
+    printf("\n\t\tNão foi encontrado nada.");
+   } else {
+       if (num > Pai->matricula){
+        Pai->dir = Remover_aux(Pai->dir, num);
+       }
+       else{
+        if(num < Pai->matricula){
+            Pai->esq = Remover_aux(Pai->esq, num);
+        } else{
+            if(Pai->dir == NULL && Pai->esq == NULL){
+                free(Pai);
+                Pai = NULL;
+            }
+            else{
+                if(Pai->esq == NULL){
+                    NoAvr *aux = Pai;
+                    Pai = Pai->dir;
+                    free(aux);
+                } else {
+                    if(Pai ->esq == NULL){
+                        NoAvr *aux = Pai;
+                        Pai = Pai->dir;
+                        free(aux);
+                    }
+                    else{
+                        NoAvr *aux;
+                        aux = Pai -> esq;
+                        while(aux->dir != NULL){
+                            aux = aux->dir;
+                        }
+                        Pai->matricula = aux->matricula;
+                        strcpy(Pai->nome, aux->nome);
+                        Pai->idade = aux->idade;
+                        strcpy(Pai->cargo, aux->cargo);
+                        Pai->salario = aux->salario;
+                        aux->matricula = num;
+                        Pai->esq = Remover_aux(Pai->esq, num);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return Pai;
+}
 
+Avr* Remover(Avr *Pai, int num ){
+    NoAvr *aux = Pai->raiz;
+    if(aux->matricula==num && aux->dir==NULL && aux->esq==NULL)
+    {
+        free(aux);
+        free(Pai);
+        return NULL;
+    }
 
-
+    Pai->raiz = Remover_aux(Pai->raiz,num);
+    return Pai;
+}
 
 #endif // ARMAZENAMENTO_RH_H_INCLUDED

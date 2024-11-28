@@ -139,6 +139,7 @@ void incluirNovoFuncionario(Avr *Pai){
 
 int main(){
     int op;
+    int num = 0;
 
     setlocale(LC_ALL,"portuguese");
 
@@ -174,6 +175,14 @@ int main(){
                 incluirNovoFuncionario(Pai);
                 break;
             case 4:
+                printf("\n\t\tDigite a Matricula do funcionário que deseja excluir: ");
+                scanf("%d",&num);
+                Remover(Pai,num);
+                printf("\n\t\tFuncionário Removido");
+                printf("\n\t\tTabela Atualizada:\n");
+                printf("\n\nMatricula\tNome\t\t\t\t\tIdade\tCargo\t\t\t\tSalário\n");
+                printf("-------------------------------------------------------------------------------------------------------\n");
+                imprimeArvIN(Pai->raiz);
                 break;
             case 5:
                 break;
