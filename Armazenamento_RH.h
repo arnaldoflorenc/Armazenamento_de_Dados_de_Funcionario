@@ -34,7 +34,7 @@ void imprimeArvIN(NoAvr *A){
         printf("\t\nArvore esta vazia!!");
         return;
     }else{
-        printf("%d\t\t%-10s\t%d\t%-15s\t%.2f\n", A->matricula, A->nome, A->idade, A->cargo, A->salario);
+        printf("%d %-39s %d %-24s %.2f\n", A->matricula, A->nome, A->idade, A->cargo, A->salario);
         if(A->dir != NULL){
             imprimeArvIN(A->dir);
         }

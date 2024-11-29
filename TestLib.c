@@ -6,14 +6,10 @@
 #include "Armazenamento_RH.h"
 
 void insereFuncionarios(Avr *Pai){
-    int matricula;
-    float salario;
-    char nome[40];
-    int idade;
-    char cargo[25];
     int numfunc;
+    char aux[90];
     FILE *dados;
-    Funcionarios *func;
+    Funcionarios func;
 
     dados = fopen("Dados.txt", "r");
     if(dados == NULL){
@@ -22,18 +18,17 @@ void insereFuncionarios(Avr *Pai){
         exit(0);
     }
 
-    fscanf(dados, "%d", &numfunc);
-    func = (Funcionarios*)malloc(numfunc*sizeof(Funcionarios));
+    if (fgets(aux,sizeof(aux), dados) != NULL)
+        {
+        sscanf(aux, "%d", &numfunc);
+        }
 
-    for(int i = 0; i< numfunc; i++){
-        fscanf(dados,"%d", &func[i].matricula);
-        fgets(func[i].nome,40, dados);
-        fscanf(dados,"%d", &func[i].idade);
-        fgets(func[i].cargo,25, dados);
-        fscanf(dados,"%f", &func[i].salario);
+        while (fgets(aux,sizeof(aux), dados) != NULL)
+        {
+            sscanf(aux, "%d %39[^\n] %d %24[^\n] %f", &func.matricula, func.nome, &func.idade, func.cargo, &func.salario);
+            insere_Arvore(Pai, func.matricula, func.nome, func.idade, func.cargo, func.salario);
+        }
 
-        insere_Arvore(Pai, func[i].matricula, func[i].nome, func[i].idade, func[i].cargo, func[i].salario);
-    }
 
     printf("\n\nMatricula\tNome\t\t\t\t\tIdade\tCargo\t\t\t\tSalário\n");
     printf("-------------------------------------------------------------------------------------------------------\n");
@@ -65,9 +60,8 @@ void buscaFuncionario(Avr *Pai){
             case 1:
                 printf("\n\t->Digite o novo Nome: ");
                 fflush(stdin);
-                fgets(novo_nome, 40, stdin);
-                novo_nome[strcspn(novo_nome, "\n")] = '\0';
-                aumentaN(novo_nome);
+                gets(novo_nome);
+
 
                 alt = 0;
                 break;
@@ -79,9 +73,9 @@ void buscaFuncionario(Avr *Pai){
             case 3:
                 printf("\n\t->Digite o novo Cargo: ");
                 fflush(stdin);
-                fgets(novo_cargo, 25, stdin);
-                novo_cargo[strcspn(novo_cargo, "\n")] = '\0';
-                aumentaC(novo_cargo);
+                gets(novo_cargo);
+
+
 
                 alt = 2;
                 break;
@@ -113,18 +107,14 @@ void incluirNovoFuncionario(Avr *Pai){
 
     printf("\n\t->Nome: ");
     fflush(stdin);
-    fgets(novo_nome, 40, stdin);
-    novo_nome[strcspn(novo_nome, "\n")] = '\0';
-    aumentaN(novo_nome);
+    gets(novo_nome);
 
     printf("\n\t->Idade: ");
     scanf("%d", &nova_idade);
 
     printf("\n\t->Cargo: ");
     fflush(stdin);
-    fgets(novo_cargo, 25, stdin);
-    novo_nome[strcspn(novo_cargo, "\n")] = '\0';
-    aumentaC(novo_cargo);
+    gets(novo_cargo);
 
     printf("\n\t->Salario: ");
     scanf("%f", &novo_salario);
